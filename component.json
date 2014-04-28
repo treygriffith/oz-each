@@ -8,10 +8,9 @@
   },
   "development": {
     "treygriffith/oz": "^0.1.0",
-    "component/domify": "1.2.2",
+    "treygriffith/oz-text": "^0.0.1",
     "ramitos/children": "*",
     "component/assert": "*",
-    "adamsanderson/trigger-event": "*"
   },
   "scripts": [
     "index.js"
