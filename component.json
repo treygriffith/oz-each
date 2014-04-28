@@ -1,0 +1,20 @@
+{
+  "name": "oz-each",
+  "version": "0.0.1",
+  "description": "Array iteration tag for Oz",
+  "dependencies": {
+    "matthewp/attr": "*",
+    "treygriffith/siblings": "0.0.4"
+  },
+  "development": {
+    "treygriffith/oz": "^0.1.0",
+    "component/domify": "1.2.2",
+    "ramitos/children": "*",
+    "component/assert": "*",
+    "adamsanderson/trigger-event": "*"
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "main": "index.js"
+}
