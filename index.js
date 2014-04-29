@@ -2,13 +2,13 @@
  * Module dependencies
  */
 var attr = require('attr')
-  , siblings = require('siblings');
+  , children = require('children');
 
 /**
  * Export plugin
  */
 module.exports = function (Oz) {
-  Oz.tag('oz-each', render, '[oz-each-index]');
+  Oz.tag('oz-each', render);
 };
 
 module.exports.render = render;
@@ -21,44 +21,55 @@ module.exports.render = render;
  *         <div oz-each="people" oz-each-index="1"><p oz-text="name">Brian</p></div>
  */
 
-function render (el, ctx, prop, scope, next) {
+function render (el, val, scope, raw) {
+  if(attr(el).get('oz-each-index') == undefined) {
 
-  var newEl
-    , existing = {}
-    , after
-    , val = this.get(ctx, prop);
+    // starter node
+    if(val.length) {
+      attr(el).set('oz-each-index', 0);
+      this.show(el);
 
-  // nothing to do if there is no array at all
-  if(!val) return this.hide(el);
+      // render it again now that it has an index
+      return this._render(el, raw.ctx, raw.scope);
+    }
 
-  this.show(el);
+    this.hide(el);
+    
+  } else {
 
-  // find all the existing elements
-  siblings(el, '[oz-each-index]').forEach(function (el, i) {
+    // existing node, get index
+    var i = parseInt(scope.split('.').pop(), 10);
 
-    // remove elements that are no longer around
-    if(i >= val.length) return el.parentNode.removeChild(el);
+    if(i >= val.length) {
+      // this node needs to go away
+      if(i > 0) {
+        el.parentNode.removeChild(el);
+      } else {
+        // don't remove the zero element - it will be our new starter
+        attr(el).set('oz-each-index', '');
+        this.hide(el);
+      }
 
-    // keep track of the existing elements
-    existing[i] = el;
-  });
-
-  // use a for loop instead of `.forEach` to allow array-like values with a length property
-  for(var i=0; i<val.length; i++) {
-
-    after = existing[i + 1] || el;
-    newEl = existing[i] || el.cloneNode(true);
-
-    // we need to be able to reference this element later
-    attr(newEl).set('oz-each-index', i);
-
-    // insert in the correct ordering
-    after.parentNode.insertBefore(newEl, after);
-
-    next(newEl, val[i], this.scope(scope, prop + '.' + i));
+    } else if(i < val.length - 1 && !siblings(el, '[oz-each-index='+(i+1)+']').length) {
+      // we need more nodes
+      // only let the last node perform this operation
+      // render the newly created nodes - they'll be skipped otherwise
+      this._render(addNode(el, i+1, this.show.bind(this)), raw.ctx, raw.scope);
+    }
   }
 
-  // hide template element
-  this.hide(el);
+  // scope down the children
+  return scope;
+}
+
+function addNode(el, n, show) {
+  var newEl = el.cloneNode(true);
+  show(newEl);
+
+  attr(newEl).set('oz-each-index', n);
+
+  el.parentNode.insertBefore(newEl, el.nextSibling);
+
+  return newEl;
 }
 

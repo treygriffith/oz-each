@@ -1,13 +1,13 @@
 {
   "name": "oz-each",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Array iteration tag for Oz",
   "dependencies": {
     "matthewp/attr": "*",
     "treygriffith/siblings": "0.0.4"
   },
   "development": {
-    "treygriffith/oz": "^0.1.0",
+    "treygriffith/oz": "^0.2.0",
     "treygriffith/oz-text": "^0.0.1",
     "ramitos/children": "*",
     "component/assert": "*",
