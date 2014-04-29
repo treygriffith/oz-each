@@ -8,7 +8,7 @@
   },
   "development": {
     "treygriffith/oz": "^0.2.0",
-    "treygriffith/oz-text": "^0.0.1",
+    "treygriffith/oz-text": "0.1.0",
     "ramitos/children": "*",
     "component/assert": "*",
     "matthewp/text": "0.0.2"

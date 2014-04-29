@@ -65,8 +65,8 @@ describe("Updating", function() {
 
     template.update({names: ['Tobi', 'Paul']});
 
-    assert(children(fragment)[3] == null);
-    assert(text(children(children(fragment)[2])[0]) === '');
+    assert(children(fragment).length === 2);
+    assert(text(children(children(fragment)[1])[0]) === 'Paul');
   });
 
 });
