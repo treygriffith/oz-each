@@ -2,7 +2,7 @@
  * Module dependencies
  */
 var attr = require('attr')
-  , children = require('children');
+  , siblings = require('siblings');
 
 /**
  * Export plugin
